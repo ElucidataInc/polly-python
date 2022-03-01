@@ -24,12 +24,12 @@ base_json = {
    ]
 }
 f = os.path.join("/import/", f"{os.environ['POLLY_NOTEBOOK_NAME']}.ipynb")
-with open(f) as f_p:
+with open(f, encoding='utf-8') as f_p:
    data = json.load(f_p)
 data["cells"].insert(0, base_json)
 # ls
 f1_file = os.path.join("/import/", f"{os.environ['POLLY_NOTEBOOK_NAME']}_github.ipynb")
-f1 = open(f1_file, "w")
+f1 = open(f1_file, "w", encoding='utf-8')
 data_write = json.dumps(json.loads(json.dumps(data)), indent=2)
 f1.write(data_write)
 f1.close()
