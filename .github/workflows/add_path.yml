@@ -23,6 +23,7 @@ jobs:
     env:
       DEPLOY_REPO_NAME: ${{ github.repository }}
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+      DEPLOY_WORKSPACE: ${{ github.workspace }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -62,4 +63,5 @@ jobs:
                               print(url_dict.get("path"))
                               print(os.environ["DEPLOY_REPO_NAME"])
                               print(os.environ["BRANCH_NAME"])
+                              print(os.environ["DEPLOY_WORKSPACE"])
         shell: python
