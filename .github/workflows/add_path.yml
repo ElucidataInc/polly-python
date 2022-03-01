@@ -24,12 +24,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: setup default python 
-        uses: ./
-
+      
       - name: Run with setup-python 3.8
-        uses: ./
+        uses: actions/setup-python@v2
         with:
           python-version: 3.8
+    
       - name: Verify 3.8
         run: python --version
