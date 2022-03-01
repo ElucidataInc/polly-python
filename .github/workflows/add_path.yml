@@ -38,6 +38,7 @@ jobs:
         run: pip install beautifulsoup4
         
       - name: Run the parsing in python
+        shell: python
         run: |
           import os
           import json
@@ -69,6 +70,6 @@ jobs:
                                       cell['source'][0] = str(parsed_html)
                                       f1 = open(f, "a")
                                       updated_changes = json.dumps(json.loads(json.dumps(data)), indent=2)
+                                      print(updated_changes)
                                       f1.write(updated_changes)
                                       f1.close()
-        shell: python
