@@ -22,7 +22,7 @@ jobs:
 
     env:
       DEPLOY_REPO_NAME: ${{ github.repository }}
-      DEPLOY_WORKSPACE: ${{ github.workspace }}
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -61,5 +61,5 @@ jobs:
                           if ( url_dict.get('source') == "github" ):
                               print(url_dict.get("path"))
                               print(os.environ["DEPLOY_REPO_NAME"])
-                              print(os.environ["DEPLOY_WORKSPACE"])
+                              print(os.environ["BRANCH_NAME"])
         shell: python
