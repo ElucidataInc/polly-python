@@ -11,7 +11,7 @@ API_HEADERS = {
     'cache-control': 'no-cache'
 }
 required_info = make_api_call("GET", url, {}, API_HEADERS)['included'][0]['attributes']['notebook_config']
-final_url = f"https://polly.elucidata.io/manage/workspaces?action=open_polly_notebook&source=github&path=#&kernel={required_info['kernel']}&machine={required_info['machine']}"
+final_url = f"https://polly.elucidata.io/manage/workspaces?action=open_polly_notebook&source=github&path=path_place_holder&kernel={required_info['kernel']}&machine={required_info['machine']}"
 base_html = f"<a href=\"{final_url}\" target=\"_parent\"><img src=\"https://elucidatainc.github.io/PublicAssets/open_polly.svg\" alt=\"Open in Polly\"/></a>\n"
 base_json = {
    "cell_type": "markdown",
