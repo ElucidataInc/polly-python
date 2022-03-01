@@ -29,6 +29,17 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-    
-      - name: Verify 3.8
-        run: python --version
+      - name: Install python dependencies
+        run: pip install beautifulsoup4
+        
+      - name: Run the parsing in python
+        run: |
+          import os
+          import json
+          try: 
+              from BeautifulSoup import BeautifulSoup
+          except ImportError:
+              from bs4 import BeautifulSoup
+
+          from urllib.parse import urlparse, parse_qsl, urlencode
+        shell: python
