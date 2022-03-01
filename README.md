@@ -4,7 +4,7 @@ This space is intended to help users for the following:-
 2. Raise issue for any feature requests or bugs they encounter while using polly-python
 3. Share a high level roadmap about upcoming features on Polly-python library 
 
-## How to add open in Polly 
+## How to add "Open in Polly" button in Polly notebooks
 In Polly notebook after done with the relevent notebook. Follow the below steps
 1. Open the terminal from Polly offerings
 2. Run the following command
