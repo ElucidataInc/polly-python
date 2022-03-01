@@ -63,5 +63,5 @@ jobs:
                               print(f)
                               print(os.environ["DEPLOY_REPO_NAME"])
                               print(os.environ["BRANCH_NAME"])
-                              print(f"{os.environ['DEPLOY_REPO_NAME']}/blob/{os.environ['BRANCH_NAME']}/${f.split(os.environ['DEPLOY_WORKSPACE'])[1]}")
+                              print(f"{os.environ['DEPLOY_REPO_NAME']}/blob/{os.environ['BRANCH_NAME']}{f.split(os.environ['DEPLOY_WORKSPACE'])[1]}")
         shell: python
