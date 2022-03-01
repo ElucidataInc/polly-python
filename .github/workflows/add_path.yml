@@ -60,8 +60,5 @@ jobs:
                           parts = urlparse(parsed_html.a['href'])
                           url_dict = dict(parse_qsl(parts.query))
                           if ( url_dict.get('source') == "github" ):
-                              print(f)
-                              print(os.environ["DEPLOY_REPO_NAME"])
-                              print(os.environ["BRANCH_NAME"])
                               print(f"{os.environ['DEPLOY_REPO_NAME']}/blob/{os.environ['BRANCH_NAME']}{f.split(os.environ['DEPLOY_WORKSPACE'])[1]}")
         shell: python
