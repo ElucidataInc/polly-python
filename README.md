@@ -12,6 +12,8 @@ In Polly notebook after done with the relevent notebook. Follow the below steps
 ```
 python3 -c "$(wget -q -O - https://raw.githubusercontent.com/ElucidataInc/polly-python/main/.github/workflows/notebook_download.py)"
 ```
-3. Go to file explorer in Polly notebook under Polly offerings and select the newly created `ipynb` notebook.
-4. Download the file by clicking on download button
-5. After file is downloaded delete the created ipynb notebook 
+3. Go to file explorer in Polly notebook under Polly offerings and select the newly created `ipynb` notebook. The newly created will have `_github` added to the end of he name
+4. Download the file by selecting the file and clicking on download button that appears after selection
+5. After file is downloaded delete the created ipynb notebook
+6. Upload the file to the github repository
+7. If `Github Action` is copied from this repository to users repository this integration can work in users repository too
