@@ -40,6 +40,20 @@ jobs:
               from BeautifulSoup import BeautifulSoup
           except ImportError:
               from bs4 import BeautifulSoup
-
           from urllib.parse import urlparse, parse_qsl, urlencode
+          
+          directory = os.path.abspath(".")
+          for filename in os.listdir(directory):
+              f = os.path.join(directory, filename)
+              if ( os.path.isfile(f) and os.path.splitext(f)[1] == ".ipynb" ):
+                  f_p = open(f)
+                  data = json.load(f_p)
+                  for cell in data['cells']:
+                      if 'metadata' in cell and 'id' in cell['metadata'] and cell['metadata']['id'] == "view-in-github":
+                          print(f)
+                          parsed_html = BeautifulSoup(cell['source'][0],"html.parser")
+                          parts = urlparse(parsed_html.a['href'])
+                          url_dict = dict(parse_qsl(parts.query))
+                          if ( url_dict.get('source') == "github" ):
+                              print(url_dict.get("path"))
         shell: python
