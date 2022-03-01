@@ -68,7 +68,7 @@ jobs:
                                       enco_url = urlunparse(list_parts)
                                       parsed_html.find('a')['href'] = enco_url
                                       cell['source'][0] = str(parsed_html)
-                                      f1 = open(f, "a")
+                                      f1 = open(f, "w")
                                       updated_changes = json.dumps(json.loads(json.dumps(data)), indent=2)
                                       print(updated_changes)
                                       f1.write(updated_changes)
