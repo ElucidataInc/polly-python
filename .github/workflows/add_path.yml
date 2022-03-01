@@ -27,5 +27,9 @@ jobs:
       - name: setup default python 
         uses: ./
 
-      - name: Validate version
+      - name: Run with setup-python 3.8
+        uses: ./
+        with:
+          python-version: 3.8
+      - name: Verify 3.8
         run: python --version
