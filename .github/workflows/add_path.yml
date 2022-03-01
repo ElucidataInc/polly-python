@@ -20,6 +20,10 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
 
+    env:
+      DEPLOY_REPO_NAME: ${{ github.repository }}
+      DEPLOY_WORKSPACE: ${{ github.workspace }}
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -56,4 +60,6 @@ jobs:
                           url_dict = dict(parse_qsl(parts.query))
                           if ( url_dict.get('source') == "github" ):
                               print(url_dict.get("path"))
+                              print(os.environ["DEPLOY_REPO_NAME"])
+                              print(os.environ["DEPLOY_WORKSPACE"])
         shell: python
