@@ -39,36 +39,36 @@ jobs:
         
       - name: Run the parsing in python
         run: |
-            import os
-            import json
-            try: 
-                from BeautifulSoup import BeautifulSoup
-            except ImportError:
-                from bs4 import BeautifulSoup
-            from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
+          import os
+          import json
+          try: 
+              from BeautifulSoup import BeautifulSoup
+          except ImportError:
+              from bs4 import BeautifulSoup
+          from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
 
-            directory = os.path.abspath(".")
-            for filename in os.listdir(directory):
-                f = os.path.join(directory, filename)
-                if ( os.path.isfile(f) and os.path.splitext(f)[1] == ".ipynb" ):
-                    with open(f) as f_p:
-                        data = json.load(f_p)
-                        for cell in data['cells']:
-                            if 'metadata' in cell and 'id' in cell['metadata'] and cell['metadata']['id'] == "view-in-github":
-                                parsed_html = BeautifulSoup(cell['source'][0],"html.parser")
-                                parts = urlparse(parsed_html.a['href'])
-                                list_parts = list(parts)
-                                url_dict = dict(parse_qsl(parts.query))
-                                if ( url_dict.get('source') == "github" ):
-                                    s = f"{os.environ['DEPLOY_REPO_NAME']}/blob/{os.environ['BRANCH_NAME']}{f.split(os.environ['DEPLOY_WORKSPACE'])[1]}"
-                                    if ( url_dict.get("path") != s):
-                                        url_dict.update({"path": s})
-                                        list_parts[4] = urlencode(url_dict)
-                                        enco_url = urlunparse(list_parts)
-                                        parsed_html.find('a')['href'] = enco_url
-                                        cell['source'][0] = str(parsed_html)
-                                        f1 = open(f, "a")
-                                        updated_changes = json.dumps(json.loads(json.dumps(data)), indent=2)
-                                        f1.write(updated_changes)
-                                        f1.close()
+          directory = os.path.abspath(".")
+          for filename in os.listdir(directory):
+              f = os.path.join(directory, filename)
+              if ( os.path.isfile(f) and os.path.splitext(f)[1] == ".ipynb" ):
+                  with open(f) as f_p:
+                      data = json.load(f_p)
+                      for cell in data['cells']:
+                          if 'metadata' in cell and 'id' in cell['metadata'] and cell['metadata']['id'] == "view-in-github":
+                              parsed_html = BeautifulSoup(cell['source'][0],"html.parser")
+                              parts = urlparse(parsed_html.a['href'])
+                              list_parts = list(parts)
+                              url_dict = dict(parse_qsl(parts.query))
+                              if ( url_dict.get('source') == "github" ):
+                                  s = f"{os.environ['DEPLOY_REPO_NAME']}/blob/{os.environ['BRANCH_NAME']}{f.split(os.environ['DEPLOY_WORKSPACE'])[1]}"
+                                  if ( url_dict.get("path") != s):
+                                      url_dict.update({"path": s})
+                                      list_parts[4] = urlencode(url_dict)
+                                      enco_url = urlunparse(list_parts)
+                                      parsed_html.find('a')['href'] = enco_url
+                                      cell['source'][0] = str(parsed_html)
+                                      f1 = open(f, "a")
+                                      updated_changes = json.dumps(json.loads(json.dumps(data)), indent=2)
+                                      f1.write(updated_changes)
+                                      f1.close()
         shell: python
