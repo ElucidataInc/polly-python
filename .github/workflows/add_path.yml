@@ -51,8 +51,8 @@ jobs:
           directory = os.path.abspath(".")
           for root, dirs, files in os.walk(directory):
               for filename in files:
-                  print(filename)
-                  f = os.path.join(directory, filename)
+                  f = os.path.join(root, filename)
+                  print(f)
                   if ( os.path.isfile(f) and os.path.splitext(f)[1] == ".ipynb" ):
                       with open(f) as f_p:
                           data = json.load(f_p)
