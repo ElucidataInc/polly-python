@@ -50,6 +50,7 @@ jobs:
 
           directory = os.path.abspath(".")
           for filename in os.listdir(directory):
+              print(filename)
               f = os.path.join(directory, filename)
               if ( os.path.isfile(f) and os.path.splitext(f)[1] == ".ipynb" ):
                   with open(f) as f_p:
