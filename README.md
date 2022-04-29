@@ -1,6 +1,8 @@
 ## Intended use of this space
 This space is intended to help [polly-python](https://pypi.org/project/polly-python/) users for the following:-
-- Share example notebooks to answer frequently asked questions of Polly users and enable consumption. The notebooks can be opened directly on the Polly compute environment.
+- Resource sharing 
+  - Collection of notebooks which help users with smooth onboarding to use polly-python. These notebooks can be opened directly on the Polly compute environment.
+  - Publish case studies on topics similar to the biological questions which drug discovery teams are trying to answer.   
 - Communicate directly with the product team 
   - Raise issue for any feature requests or bugs they encounter while using polly-python.
   - Discuss the key features being planned in polly-python product roadmap and provide feedback to team.
