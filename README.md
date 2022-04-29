@@ -1,8 +1,9 @@
-# Indended use
+## Intended use of this space
 This space is intended to help [polly-python](https://pypi.org/project/polly-python/) users for the following:-
-1. Share example notebooks to answer frequently asked questions of Polly users and enable consumption. The notebooks can be opened directly on the Polly compute environment.
-2. Raise issue for any feature requests or bugs they encounter while using polly-python.
-3. Discuss the key features being planned in polly-python product roadmap and provide feedback to team.
+- Share example notebooks to answer frequently asked questions of Polly users and enable consumption. The notebooks can be opened directly on the Polly compute environment.
+- Communicate directly with the product team 
+  - Raise issue for any feature requests or bugs they encounter while using polly-python.
+  - Discuss the key features being planned in polly-python product roadmap and provide feedback to team.
 
 ## How are the notebooks, issues and roadmap organized?
 Most of the notebooks are organized as per the IDEATE Framework of Elucidata.
