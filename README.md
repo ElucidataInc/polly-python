@@ -14,7 +14,7 @@ Most of the notebooks are organized as per the IDEATE Framework of Elucidata.
 - **Discover:** Enable users to search/query for datasets of their interest.
 - **Enrich:** Enable users to enrich the data with public databases and navigate smoothly across the data from different sources.  
 - **Analyse:** Enable users to build a collection of tools, notebooks, apps, and ML models used in bioinformatics.
-- **Communicate:**  Enable users to share the data, analysis, reports etc with colleagues to share and collaborate better. 
+- **communicaTE:**  Enable users to share the data, analysis, reports etc with colleagues to share and collaborate better. 
 
 Read our blog to know more about [ideate framework](https://www.elucidata.io/blog/ideate-ing-for-the-future) and the infographic below:-
 ![Ideate framework](https://uploads-ssl.webflow.com/61e5670dd964f730bc3722e9/624738efacae05cad226fe3d_IDEATE-Blog-1-934x1024.png)
