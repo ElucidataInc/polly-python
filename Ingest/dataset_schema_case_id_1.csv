@@ -1,0 +1,12 @@
+field_name,original_name,type,is_keyword,is_array,is_filter,is_column,filter_size,display_name,description
+dataset_source,dataset_source,text,1,0,0,0,1,Source,Source from where the data was fetched
+dataset_id,dataset_id,text,1,0,0,1,1,Dataset ID,Unique ID assocaited with every dataset
+description,description,text,0,0,0,0,1,Title,Description of the dataset
+curated_disease,curated_disease,text,1,1,1,1,3000,Disease,Disease associated with the dataset
+curated_cell_line,curated_cell_line,text,1,1,1,1,1000,Cell line,Cell lines from which the samples were derived for this dataset
+curated_cell_type,curated_cell_type,text,1,1,0,1,1,Cell type,Types of cell present in the dataset
+data_type,data_type,text,1,0,1,1,10,Data type,"The type of biomolecular data captured (eg - Exome Sequencing, Transcriptomics)"
+curated_organism,curated_organism,text,1,1,1,1,1000,Organism,Orgnism from which the samples were derived
+curated_tissue,curated_tissue,text,1,1,1,1,1000,Tissue,Tissue from which the samples were derivved
+curated_drug,curated_drug,text,1,1,1,1,3000,Drug,Drugs administered in the samples belonging to the dataset
+total_num_samples,total_num_samples,integer,1,0,0,0,1,Number of Samples,Total number of samples in a dataset
