@@ -1,5 +1,6 @@
 import time
 from neo4j import GraphDatabase
+import pandas as pd
 
 class PollyGraph:
     
@@ -31,33 +32,47 @@ class PollyGraph:
                 session.close()
         return response
 
-def find_datasets_using_term(node_type,node_property,term):
+def find_datasets_using_term(node_type,term,node_property=['name','synonyms']):
+    pollygraph = PollyGraph(uri="bolt://localhost:7687", user="neo4j", pwd="password")
     node_label = "ns0__"+node_type
     properties = ""
+    dataset_return_properties = ['data_type', 'dataset_id', 'curated_disease', 'curated_drug', 'curated_gene', 'curated_tissue',
+                                 'condition_control', 'condition_perturbation', 'curated_cell_line', 'curated_cell_type',
+                                 'src_overall_design', 'src_summary', 'condition_column', 'src_dataset_id', 'src_description']
     for i in node_property:
         prop_label = "ns0__"+i
         properties = properties +"n."+prop_label+"+ "
     properties = properties[0:len(properties)-2]+" "
-    query = f"""MATCH (p: dataset)--(n:{node_label}) WHERE 
+    ret = make_return_statement_dataset({'p':dataset_return_properties})
+    query = f"""MATCH (p: dataset)-[r1]-(n:{node_label}) WHERE 
     ANY (x in {properties}where toLower(x) CONTAINS("{term.lower()}"))
-    RETURN p.src_dataset_id as src_dataset_id,n.ns0__name as term;"""
-    return query
+    RETURN {ret},n.ns0__name as term;"""
+    top_cat_df = pd.DataFrame([dict(_) for _ in pollygraph.query(query)])
+    plot_bar('node1_src_dataset_id','term',top_cat_df,'Datasets per term','Terms','Datasets')
+    return top_cat_df
 
-def find_datasets_using_related_terms(node_type,node_property,term):
+def find_datasets_using_related_term(node_type,term,node_property=['name','synonyms']):
+    pollygraph = PollyGraph(uri="bolt://localhost:7687", user="neo4j", pwd="password")
     node_label = "ns0__"+node_type
     properties = ""
+    dataset_return_properties = ['data_type', 'dataset_id', 'curated_disease', 'curated_drug', 'curated_gene', 'curated_tissue',
+                                 'condition_control', 'condition_perturbation', 'curated_cell_line', 'curated_cell_type',
+                                 'src_overall_design', 'src_summary', 'condition_column', 'src_dataset_id', 'src_description']
     for i in node_property:
         prop_label = "ns0__"+i
         properties = properties +"n."+prop_label+"+ "
     properties = properties[0:len(properties)-2]+" "
-    relation = "ns0__is_a_"+node_type
-    query = f"""MATCH (n:{node_label})-[:{relation}]-(m:{node_label}) 
+    #relation = "ns0__is_a_"+node_type
+    ret = make_return_statement_dataset({'p':dataset_return_properties})
+    query = f"""MATCH (n:{node_label})--(m:{node_label}) 
     WHERE ANY (x in {properties}WHERE tolower(x) CONTAINS('{term.lower()}'))
     WITH {properties}as terms
     UNWIND terms as t 
-    MATCH (p:dataset)--(n:{node_label} """+"{ns0__name: [t]}"+""") 
-    RETURN p.src_dataset_id as dataset_id,n.ns0__name AS name;"""
-    return query 
+    MATCH (p:dataset)--(n:{node_label} """+"{ns0__name: [t]}"+f""") 
+    RETURN {ret},n.ns0__name AS term;"""
+    top_cat_df = pd.DataFrame([dict(_) for _ in pollygraph.query(query)])
+    plot_bar('node1_src_dataset_id','term',top_cat_df,'Datasets per term','Terms','Datasets')
+    return top_cat_df
 
 def build_rel_query(field_name, col_name, meta_field, rel):
     
@@ -125,3 +140,106 @@ def add_dataset(rows, batch_size=500):
             RETURN count(*) as total
             '''
     return insert_data(query, rows)
+
+def get_relation(node1,node2):
+    pollygraph = PollyGraph(uri="bolt://localhost:7687", user="neo4j", pwd="password")
+    query = f"""MATCH (n:ns0__{node1})-[r]-(m:ns0__{node2})
+    RETURN distinct type(r) as relation_type;"""
+    top_cat_df = pd.DataFrame([dict(_) for _ in pollygraph.query(query)])
+    return top_cat_df
+
+def get_related_nodes(node1,node2,node1_search_term,node2_search_term=None,relation=None,node1_search_properties=['name','synonyms'],node2_search_properties=['name','synonyms'],node1_return=['name'],node2_return=['name']):
+    if node1 != 'dataset':
+        node1= f'ns0__{node1}'
+    else:
+        node1=node1
+    if node2 != 'dataset':
+        node2 = f'ns0__{node2}'
+    else:
+        node2=node2
+    properties_node1 = ""
+    for i in node1_search_properties:
+        prop_label = "ns0__"+i
+        properties_node1 = properties_node1 +"n."+prop_label+"+ "
+    properties_node1 = properties_node1[0:len(properties_node1)-2]+" "
+    
+    properties_node2 = ""
+    for i in node2_search_properties:
+        prop_label = "ns0__"+i
+        properties_node2 = properties_node2 +"m."+prop_label+"+ "
+    properties_node2 = properties_node2[0:len(properties_node2)-2]+" "
+    ret = make_return_statement({'n':node1_return,'m':node2_return})
+    if relation:
+        if node2_search_term:
+            query = f"""MATCH (n:{node1})-[r1:ns0__{relation}]-(m:{node2})
+            WHERE ANY (x in {properties_node1}WHERE toLower(x) CONTAINS("{node1_search_term.lower()}")) AND
+            ANY (y in {properties_node2}WHERE toLower(y) CONTAINS("{node2_search_term.lower()}"))
+            RETURN {ret},type(r1) as relation;"""
+        else:
+            query = f"""MATCH (n:{node1})-[r1:ns0__{relation}]-(m:{node2})
+            WHERE ANY (x in {properties_node1}WHERE toLower(x) CONTAINS("{node1_search_term.lower()}"))
+            RETURN {ret},type(r1) as relation;"""
+    else:
+        if node2_search_term:
+            query = f"""MATCH (n:{node1})-[r1]-(m:{node2})
+            WHERE ANY (x in {properties_node1}WHERE toLower(x) CONTAINS("{node1_search_term.lower()}")) AND
+            ANY (y in {properties_node2}WHERE toLower(y) CONTAINS("{node2_search_term.lower()}"))
+            RETURN {ret},type(r1) as relation;"""
+        else:
+            query = f"""MATCH (n:{node1})-[r1]-(m:{node2})
+            WHERE ANY (x in {properties_node1}WHERE toLower(x) CONTAINS("{node1_search_term.lower()}"))
+            RETURN {ret},type(r1) as relation;"""
+    return query
+
+def get_node_properties(node):
+    pollygraph = PollyGraph(uri="bolt://localhost:7687", user="neo4j", pwd="password")
+    if node != 'dataset':
+        node = f'ns0__{node}'
+    else:
+        node=node
+    query = f"""MATCH (n:{node})
+    UNWIND keys(n) as property
+    RETURN DISTINCT(property);"""
+    top_cat_df = pd.DataFrame([dict(_) for _ in pollygraph.query(query)])
+    return top_cat_df
+
+def make_return_statement(dict_return):
+    return_query = ""
+    j=0
+    for i in dict_return.keys():
+        j+=1
+        node_name = 'node'+str(j)
+        for k in dict_return[i]:
+            return_query = f"{return_query}{i}.ns0__{k} as {node_name}_{k}, "
+    return_query = return_query[0:len(return_query)-2]
+    return return_query
+
+def make_return_statement_dataset(dict_return):
+    return_query = ""
+    j=0
+    for i in dict_return.keys():
+        j+=1
+        node_name = 'node'+str(j)
+        for k in dict_return[i]:
+            return_query = f"{return_query}{i}.{k} as {node_name}_{k}, "
+    return_query = return_query[0:len(return_query)-2]
+    return return_query
+
+def plot_bar(id_col,term_col,data,title,x_label,y_label):
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    df = data[[id_col,term_col]]
+    for i in df.columns:
+        df=df.explode(i)
+    df = df.drop_duplicates(keep='first')
+    print(f'No. of {y_label}:',len(df[id_col].unique()))
+    print(f'No. of {x_label}:',len(df[term_col].unique()))
+    sns.set_style('darkgrid')
+    sns.set_palette('Set2')
+    ax = sns.countplot(data=df, x=term_col)
+    plt.title(title)
+    plt.xlabel(x_label)
+    plt.xticks(rotation=90)
+    plt.ylabel(y_label)
+    sns.despine()
+    plt.show()
