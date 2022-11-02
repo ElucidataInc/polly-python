@@ -1,20 +1,3 @@
-
-## Join us at DataFAIR 2022
-![Ideate framework](https://media-exp1.licdn.com/dms/image/D5612AQElpog_KkSX6g/article-inline_image-shrink_1500_2232/0/1666097715044?e=1671667200&v=beta&t=Iv6Ci4oomJhPbYEsQPQGXbs8FjRyirbir78YvVUnuiY)
-It’s our annual event where we celebrate the hottest headliners in Life Sciences and Data Science. The overall theme of this year’s event is FAIR Data for Successful AI and thought-leaders across biopharma & biotech will be joining us to share their know-how and best practices while tackling challenges in adopting AI/ML.
-
-The event will have 2 tracks -
-- Data Centric AI
-- FAIR Transformation
-
-To join the conversation with over 1000 bio-enthusiasts from around the world on October 27th, register here, and reach out if you have any questions!
-Here’re the Details:
-- When: October 27th
-- Time: 9 AM PST - 1:30 PM PST
-- Where: Anywhere! This is a virtual event.
-
-Register here [DataFAIR 2022](https://www.elucidata.io/data-fair-2022)
-
 ## Intended use of this space
 This space is intended to help [polly-python](https://pypi.org/project/polly-python/) users for the following:-
 - Resource sharing 
